@@ -1,0 +1,210 @@
+/**
+ *  Matrix array in range of 0-255 (int)
+ *
+ * @author (Nir Avigad)
+ * @version (7/3/2019)
+ */
+public class Matrix
+{
+    // instance variables 
+   public int[][] _matrix;
+
+    /**
+     * Constructor for objects of class Matrix
+     * @param arr which is a 2D array
+     */
+    public Matrix(int[][] arr)
+    {
+        // initialise Matrix size
+        _matrix = new int[arr.length][arr[0].length];
+        for(int i=0;i<arr.length;i++)
+            for(int j=0;j<arr[i].length;j++)
+            _matrix[i][j] =arr[i][j];
+        
+        
+    }
+    /**
+     * Constructor for objects of class Matrix
+     * @param size1 which represents the matrix row
+     * @param size2 which represents the matrix column
+     */
+    public Matrix(int size1,int size2)
+    {
+        // initialise instance variables
+        _matrix = new int[size1][size2];
+        for(int i=0;i<size1;i++)
+            for(int j=0;j<size2;j++)
+            this._matrix[i][j] = 0;
+        
+    }
+    /**
+     * Constructor for a private method which declare a bigger matrix and initiallize it by the value -1
+     * using just for imageFilterAverage() method
+     *  @param size1 which represents the matrix row
+     * @param size2 which represents the matrix column
+     * @param _negative which represents the negative value
+     */
+    private Matrix(int size1,int size2,int negative)
+    {
+        // initialise instance variables
+        int _negative = negative; // decalre negative value
+        _matrix = new int[size1][size2];
+        for(int i=0;i<size1;i++)
+            for(int j=0;j<size2;j++)
+            this._matrix[i][j] = negative;
+        
+    }
+    /**
+     * @returns a string that represnts the Matrix 
+     */
+    public String toString()
+    {     
+    String lines ="";
+     for(int i=0;i<_matrix.length;i++)
+     {
+            for(int j=0;j<_matrix[i].length;j++)
+            lines+= _matrix[i][j]+"\t";
+            lines+= ("\n");
+        }      
+        return lines;
+    }
+    /**
+     * @returns the negative matrix (completes the number to 255)
+     */
+    public Matrix makeNegative()
+    {
+      Matrix Negative = new Matrix(this._matrix);
+        for (int i=0;i<_matrix.length;i++)
+        {
+            for(int j=0;j<_matrix[i].length;j++)
+                Negative._matrix[i][j] = 255 - _matrix[i][j];
+        
+            }
+            return Negative;
+    }
+ /**
+     * @returns the matrix which gets when you filter the picture
+     * calculates the avrage number of the neighbores for each cell , and sets it to the new matrix in the same place of the cell
+     * @param divider is the number of the neighbores
+     * @param sum is the summary of the cells
+     * Matrix filter is the filtered matrix 
+     * @param bigger is the bigger matrix than the checked matrix 
+     */   
+    public Matrix imageFilterAverage()
+    {
+        int divider = 0;
+        int sum = 0;
+        Matrix Filter = new Matrix(this._matrix);
+        Matrix Bigger = new Matrix(Filter._matrix.length+2,Filter._matrix[0].length+2,-1); // declare a bigger matrix than this matrix by 2 row (above & under) and 2 column (right and left)
+         for (int i=0;i<Filter._matrix.length;i++)
+        {
+            for(int j=0;j<Filter._matrix[i].length;j++)
+            {
+                Bigger._matrix[i+1][j+1] = Filter._matrix[i][j];
+            }
+        }
+        // checks if the neighbores are not negative , because the value of the matrix is between 0-255
+        //if its negative , continue .
+        for (int i=1;i<Bigger._matrix.length-1;i++)
+        {
+            for(int j=1;j<Bigger._matrix[i-1].length-1;j++)
+            {
+                 if(Bigger._matrix[i-1][j-1]>0)
+                {
+                    sum +=Bigger._matrix[i-1][j-1];
+                    divider++;
+                }
+                if(Bigger._matrix[i-1][j]>0)
+                {
+                    sum +=Bigger._matrix[i-1][j];
+                    divider++;
+                }                
+               
+                if(Bigger._matrix[i-1][j+1]>0)
+                {
+                    sum +=Bigger._matrix[i-1][j+1];
+                    divider++;
+                }
+                if(Bigger._matrix[i+1][j-1]>0)
+                {
+                    sum +=Bigger._matrix[i+1][j-1];
+                    divider++;
+                }
+                if(Bigger._matrix[i+1][j]>0)
+                {
+                    sum +=Bigger._matrix[i+1][j];
+                    divider++;
+                }
+                if(Bigger._matrix[i+1][j+1]>0)
+                {
+                    sum +=Bigger._matrix[i+1][j+1];
+                    divider++;
+                }
+                if(Bigger._matrix[i][j+1]>0)
+                {
+                    sum +=Bigger._matrix[i][j+1];
+                    divider++;
+                }
+                if(Bigger._matrix[i][j-1]>0)
+                {
+                    sum +=Bigger._matrix[i][j-1];
+                    divider++;
+                }
+                Filter._matrix[i-1][j-1] = sum/divider;
+                sum = 0;
+                divider=0;
+           }
+        }
+        return Filter;
+    }
+    /**
+     * @returns the rotated matrix with the clockwise
+     * 
+     * */
+    public Matrix rotateClockwise ()
+    {
+        Matrix matrixRotatedClockWise = new Matrix(_matrix[0].length,_matrix.length);
+        int originalMatrixNumOfrows = _matrix.length;
+        int matrixRotatedNumOfRows = matrixRotatedClockWise._matrix.length;
+        int matrixRotatedNumOfColumn =  matrixRotatedClockWise._matrix[0].length;
+        
+        for (int row = 0; row < matrixRotatedNumOfRows; row++)
+        {
+            for(int column = 0; column < matrixRotatedNumOfColumn; column++)
+                matrixRotatedClockWise._matrix[row][column] = _matrix[originalMatrixNumOfrows-1-column][row];
+    }
+    return matrixRotatedClockWise;
+}
+/**
+     * @returns the rotated matrix with against the clockwise
+     * 
+     * */
+    public Matrix rotateCounterClockwise(){
+        Matrix matrixRotateCounterClockwise = new Matrix(_matrix[0].length,_matrix.length);
+        int originalMatrixNumOfcolumn = _matrix[0].length;
+        int matrixRotatedNumOfColumn = matrixRotateCounterClockwise._matrix[0].length;
+        int matrixRotatedNumOfRows =  matrixRotateCounterClockwise._matrix.length;
+        
+        for (int row = 0; row < matrixRotatedNumOfRows; row++)
+        {
+            for(int column = 0; column < matrixRotatedNumOfColumn; column++)
+              matrixRotateCounterClockwise._matrix[row][column] = _matrix[column][originalMatrixNumOfcolumn-1-row];
+    }
+             return matrixRotateCounterClockwise;       
+ }
+
+
+    public static void main (String[]args){
+
+        int[][] intArray = {
+                            {1,2,3,4,5}, // 0    -    4
+                            {6,7,8,9,10}, // 1    -    4
+                            {11,12,13,14,15},
+                            {16,17,18,19,20}// 2    -    4
+                            }; 
+        Matrix a = new Matrix(intArray);
+        Matrix b = new Matrix(5,5);
+       System.out.println(a);
+       System.out.println(a.imageFilterAverage());
+    }
+}
