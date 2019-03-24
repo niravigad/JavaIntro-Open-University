@@ -1,10 +1,20 @@
+/**
+ * This program creates a 3D Point and can make actions with it
+ *
+ * @author (Nir Avigad)
+ * @version (25.2.2019)
+ */
 public class Point3D
  {
-     private double _x;
-     private double _y;
-     private double _z;
+     private double _x; //axis X
+     private double _y; // axis Y
+     private double _z; // axis z
      private double _Defualt = 0; 
      
+ //Contructors :
+    /**
+     * // Constructor that'll initialize the point to (0,0,0)
+     */
      
      public Point3D ()
      {
@@ -13,52 +23,88 @@ public class Point3D
          _z = _Defualt;
        
       }
+ /**
+   * a Constructor that initialize the point to a given values as well 
+     * @param  x represents the x axis of the point
+     * @param   y represents y axis of the point
+     * @param   x   represents the z axis of the point
+
+     */      
        public Point3D (double x,double y,double z)
         {
          _x = x;
          _y = y;
          _z = z;
         }
+  /**
+   * Copy Constructor
+     * @param  x represents the x axis of the point
+     * @param   y represents y axis of the point
+     * @param   x   represents the z axis of the point
+
+     */             
         public Point3D (Point3D p)
         {
          _x = p._x;
          _y = p._y;
          _z = p._z;
         }
-     
+    /**
+     gets the X
+     */     
       public double getX ()
       {
           return _x;
         }
-
+    /**
+     gets the Y
+     */
         public double getY ()
         {
             return _y;
         }
-
+    /**
+     gets the Z
+     */
         public double getZ ()
         {
             return _z;
         }
-
+    /**
+     Set the X
+     */
         public void setX(double num)
         {
             _x=num;
         }
-        
+    /**
+     Set the Y
+     */        
         public void setY(double num)
         {
             _y=num;
         }
-        
+    /**
+     Set the Z
+     */        
         public void setZ(double num)
         {
             _z=num;
         }
+    /**
+     * @returns a string that represnts the point 
+     * in the following format : 
+     * " x,y,z "
+     */        
         public String toString()
         {
          return "("+_x+","+_y+","+_z+")";
         }
+    /** check if the points are equals
+     *@param other the value you comparing
+     *@returns a true / false value
+     *checks the point axises
+     */        
          public boolean equals (Point3D other)
  {
      if((this._x==other.getX())&&(this._y==other.getY())&&(this._z==other.getZ()))
@@ -66,15 +112,24 @@ public class Point3D
       else 
       return false;
     }
+    /** check if the the currently point is above the checked point
+     *@returns true or false
+     *@param other is the compared point
+     */
  public boolean isAbove (Point3D other)
  {
-     //if(this.equals(other))
-     //return false;
       if(this._z>other.getZ())
       return true;
       else 
       return false;
     } 
+    
+      /** check if the the currently point is under the checked point
+      * using isAbove() method only
+     *@returns true or false
+     *@param other is the compared point
+     */
+     
 public boolean isUnder (Point3D other)
  {
     if(this.isAbove(other))
@@ -84,6 +139,12 @@ public boolean isUnder (Point3D other)
     else
     return true;
     }
+    
+  /** check if the the currently point is left to the checked point
+     *@returns true or false
+     *@param other is the compared point
+     */
+     
 public boolean isLeft (Point3D other)
 {
  if(this._y<other.getY())
@@ -91,6 +152,13 @@ public boolean isLeft (Point3D other)
  else 
  return false;
   }
+  
+  /** check if the the currently point is right to the checked point
+    * using isLeft() method only
+     *@returns true or false
+     *@param other is the compared point
+     */
+     
 public boolean isRight (Point3D other)
 {
  if(this.isLeft(other))
@@ -100,6 +168,12 @@ public boolean isRight (Point3D other)
     else
     return true;
 }
+
+  /** check if the the currently point is behind the checked point
+     *@returns true or false
+     *@param other is the compared point
+     */
+     
 public boolean isBehind (Point3D other)
 {
  if(this._x<other.getX())
@@ -107,6 +181,14 @@ public boolean isBehind (Point3D other)
     else
     return false;
  }
+ 
+  /** check if the the currently point is infront of the checked point
+    * using isBehind() method only
+     *@returns true or false
+     *@param other is the compared point
+     */
+      
+ 
  public boolean isInFrontOf (Point3D other)
  {
      if(this.isBehind(other))
@@ -116,18 +198,28 @@ public boolean isBehind (Point3D other)
      else
      return true;
          }
+         
+     /** moves the point in the space by the values
+     *@param dx,dy,dz - the delta that should be between the points (axis x , axis y , axis z)
+     */        
+         
   public void move (double dx , double dy , double dz)
   {
      _x += dx; 
       _y += dy;
       _z += dz;
     }
+    
+    /** returns the distance between 2 points
+     *@returns calculate double value of the distance
+     *@param other is the the point we check the distance from
+     */
+     
   public double distance (Point3D other)
   {
      return Math.sqrt(Math.pow((this.getX())-(getX()),2)+
               Math.pow((this.getY())-(getY()),2)+
               Math.pow((this.getZ())-(getZ()),2));
                 }
-  
-        
+
 }
