@@ -1,0 +1,133 @@
+public class Point3D
+ {
+     private double _x;
+     private double _y;
+     private double _z;
+     private double _Defualt = 0; 
+     
+     
+     public Point3D ()
+     {
+         _x = _Defualt;
+         _y = _Defualt;
+         _z = _Defualt;
+       
+      }
+       public Point3D (double x,double y,double z)
+        {
+         _x = x;
+         _y = y;
+         _z = z;
+        }
+        public Point3D (Point3D p)
+        {
+         _x = p._x;
+         _y = p._y;
+         _z = p._z;
+        }
+     
+      public double getX ()
+      {
+          return _x;
+        }
+
+        public double getY ()
+        {
+            return _y;
+        }
+
+        public double getZ ()
+        {
+            return _z;
+        }
+
+        public void setX(double num)
+        {
+            _x=num;
+        }
+        
+        public void setY(double num)
+        {
+            _y=num;
+        }
+        
+        public void setZ(double num)
+        {
+            _z=num;
+        }
+        public String toString()
+        {
+         return "("+_x+","+_y+","+_z+")";
+        }
+         public boolean equals (Point3D other)
+ {
+     if((this._x==other.getX())&&(this._y==other.getY())&&(this._z==other.getZ()))
+      return true;
+      else 
+      return false;
+    }
+ public boolean isAbove (Point3D other)
+ {
+     //if(this.equals(other))
+     //return false;
+      if(this._z>other.getZ())
+      return true;
+      else 
+      return false;
+    } 
+public boolean isUnder (Point3D other)
+ {
+    if(this.isAbove(other))
+    return false;
+    else if (this.equals(other))
+    return false;
+    else
+    return true;
+    }
+public boolean isLeft (Point3D other)
+{
+ if(this._y<other.getY())
+ return true;
+ else 
+ return false;
+  }
+public boolean isRight (Point3D other)
+{
+ if(this.isLeft(other))
+    return false;
+    else if (this.equals(other))
+    return false;
+    else
+    return true;
+}
+public boolean isBehind (Point3D other)
+{
+ if(this._x<other.getX())
+    return true;
+    else
+    return false;
+ }
+ public boolean isInFrontOf (Point3D other)
+ {
+     if(this.isBehind(other))
+     return false;
+     else if (this.equals(other))
+     return false;
+     else
+     return true;
+         }
+  public void move (double dx , double dy , double dz)
+  {
+     _x += dx; 
+      _y += dy;
+      _z += dz;
+    }
+  public double distance (Point3D other)
+  {
+     return Math.sqrt(Math.pow((this.getX())-(getX()),2)+
+              Math.pow((this.getY())-(getY()),2)+
+              Math.pow((this.getZ())-(getZ()),2));
+                }
+  
+        
+}
