@@ -1,0 +1,204 @@
+
+/**
+ * This program gets a collection of Boxes3D
+ *
+ * @author (Nir Avigad)
+ * @version (25.2.2019)
+ */
+public class Collection
+{
+   
+    private int MAX_NUM_BOXES = 100;//maximal number of boxes
+    private int _noOfBoxes; // number of boxes in the array
+    private Box3D[] _boxesArr; // array of boxes
+    private Box3D box;
+    private int _defualt=0;
+    
+    /**
+     * Constructor for objects of class Collection
+     */
+    public Collection()
+    {
+        // initialize of the boxes array to max
+        Box3D[] _boxesArr = new Box3D[MAX_NUM_BOXES] ;
+        _noOfBoxes = _defualt;
+    }
+    /**
+     * a method which add a box to the array and arrange it in the place it should be inside the array
+     * @param  Box3d  a sample parameter for a method
+     * @return  if the adding succeded
+     */
+    public boolean addBox(Point3D p ,int length,int width,int height)
+    {
+        
+        if(_noOfBoxes == 100)
+                return false;
+        box = new Box3D(p,length,width,height);
+        if(shiftArray(newBoxPlace(box.getVolume())));
+         {
+             _boxesArr[newBoxPlace(box.getVolume())] = new Box3D (p,length,width,height); 
+             return true;
+        }
+    }   
+    public Box3D[] getBoxes()
+     {
+            Box3D[] Copy = new Box3D[_noOfBoxes] ;
+            for(int i=0; i<_boxesArr.length ; i++)
+            {
+             Copy[i] = _boxesArr[i];
+            
+            }
+            return Copy;
+    }
+    public int getNumOfBoxes()
+        {
+            return this._noOfBoxes;
+    }
+    
+    /**
+     * a method which return the box with the biggest base corner
+     * @return   Box3D
+     */
+    public Box3D mostUpperBaseCorner()
+    {
+        while(_noOfBoxes ==0)
+        return null;
+        
+        Box3D highest = new Box3D();
+        highest = _boxesArr[0];
+        int index = 0;
+        for(int i =0;i<_boxesArr.length;i++)
+        {
+            if(_boxesArr[i].isAbove(highest))
+            {
+                highest = new Box3D(_boxesArr[i]);
+                index = i;
+            }    
+            //if(highestTemp.getBase().getZ()>highest.getBase().getZ())
+           //    highest = new Box3D(highestTemp);
+        }
+        return _boxesArr[index];
+    }
+        /**
+     * a method which return the new box place int the array(index) 
+     * gets volume
+     * @return   index
+     */
+    private int newBoxPlace(int volume)
+        {
+            int index =0;
+         for(int i=0;i<_boxesArr.length;i++)
+         {
+             if(volume >_boxesArr[i].getVolume()) // check if the new box volume is bigger than the currently box in the array
+             continue;
+             else
+             index = i;
+             break;
+            }
+            return index;
+        }
+           /**
+     * a method which shift the new array to make some room for the new box 
+     * @return   true;
+     */
+    private boolean shiftArray(int index)
+        {
+            while(MAX_NUM_BOXES>100)
+            {
+            System.out.println("the array is full");
+            return false;
+            }
+            _noOfBoxes++;
+            for(int i=_boxesArr.length;i>index;i--)// goes to the last place in the array
+             _boxesArr[i]=_boxesArr[i-1];
+            return true;
+        }
+        
+        /**
+     * a method which return the box with the biggest base corner
+     * @return   Box3D
+     */
+    public int totalSurfaceArea()
+    {
+        int sum=0;
+        for(int i =0;i<_boxesArr.length;i++)
+        {
+            sum+= _boxesArr[i].getSurfaceArea();
+                
+            }    
+            return sum;
+          
+        }
+            /**
+     * a method which return the longest distance between boxes in the array
+     * @return   max_distance
+     */
+        public double longestDistance()
+        {
+            while(_noOfBoxes<2)
+            return 0;
+                double max_distance=0.0;
+                double temp_distance=0.0;
+                for(int i=0;i<_boxesArr.length;i++)
+                {
+                    for(int j=i;j<_boxesArr.length;j++)
+                    temp_distance=_boxesArr[i].distance(_boxesArr[j]);
+                        if(temp_distance>max_distance)
+                        max_distance = temp_distance;
+                
+                }
+            return max_distance;
+        }
+              /**
+     * a method which gets a box and returns the number of boxes which can contain it . 
+     * @return   count
+     */
+        public int howManyContains(Box3D other)
+        {
+            while(_noOfBoxes<2)
+            return 0;
+            int count = 0;
+            for(int i=0;i<_boxesArr.length;i++)
+            {
+                if(_boxesArr[i].contains(other))
+                count++;    
+            }
+            return count;
+        }
+         /**
+         * a method that gets 2 indexes (i,j) and return the volume of the smallest box that can contain the boxes 
+         * between arr[i] till arr[j] or the opposite .
+         * @return   volume
+         */
+        public int  VolumeOfSmallestBox(int i ,int j)
+        {
+           while(_noOfBoxes<2)
+            return 0;
+            int volume=_boxesArr[0].getVolume();
+           for (int x=0; x<_boxesArr.length; x++)
+           {
+                for(; i<=j; i++) 
+                {
+                    if(_boxesArr[x].contains(_boxesArr[i])&&
+                      (volume > _boxesArr[x].getVolume()))
+                      volume = _boxesArr[x].getVolume(); 
+                }
+            }
+            return volume;
+        }
+          /**
+         * a method which return a string which contains all the boxes informations in the array 
+         * @return   print
+         */
+        public String toString()
+        {
+            String print = null;
+            for(int i =0; i<this._boxesArr.length; i++)
+            {
+                print = "Box no."+i+":"+_boxesArr[i].toString()+"\n \n";
+        }
+            return print;
+        }
+    }
+    
+
