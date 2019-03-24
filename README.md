@@ -1,1 +1,2 @@
-# JavaIntro-Open-University
+# JavaIntro-Open University
+Exercises for submission
