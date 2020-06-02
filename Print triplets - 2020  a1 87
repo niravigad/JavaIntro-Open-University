@@ -1,0 +1,47 @@
+
+/**
+ * Write a description of class PrintTriplets here.
+ *
+ * @author (your name)
+ * @version (a version number or a date)
+ */
+public class PrintTriplets1
+{
+
+    public PrintTriplets1()
+    {
+
+    }
+
+    public static void PrintTriplets(int [] a , int num){
+
+        for(int i =0; i<a.length -3; i++){
+            int j = i+1;
+            int k = a.length -1;
+            while(j<k)
+            {
+                int res = a[i] * a[j] * a[k];
+                if(res == num) 
+                {
+                    System.out.println(a[i]+ " "+a[k]+" "+a[j]); // added a[] here
+                    j++;
+                }               
+
+                else if (res < num)
+
+                    j++;
+
+                else 
+                    k--;
+
+            }
+        }
+    }
+        public static void main(String[] args){
+        int a[] = {1,2,3,4,5,6,7,8,9};
+        int num = 40;
+        PrintTriplets(a,num);
+    }
+
+}
+
